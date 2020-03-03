@@ -31,10 +31,19 @@ class TaskTest extends TestCase
 
     public function testDeleteTask()
     {
-        $response = $this->json('DELETE', '/api/tasks/2');
+        $response = $this->json('DELETE', '/api/tasks/2'); 
 
         $response
             ->assertStatus(200)
             ->assertSee('deleted');
+    }
+
+    public function testTickList()
+    {
+        $response = $this->json('GET', '/api/list/tick');
+
+        $response
+            ->assertStatus(200)
+            ->assertSee('tick');
     }
 }
