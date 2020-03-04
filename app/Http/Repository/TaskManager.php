@@ -51,21 +51,15 @@ Class TaskManager {
     private function tick()
     {
         if ($this->name != 'Get Older') {
-            if ($this->priority < 100) {
-                if ($this->name != 'Breathe') {
-                    $this->priority = $this->priority + 1;
-                }
+            if ($this->priority < 100 && $this->name != 'Breathe') {
+                $this->priority = $this->priority + 1;
             }
             if ($this->name == 'Complete Assessment') {
-                if ($this->dueIn < 11) {
-                    if ($this->priority < 100) {
-                        $this->priority = $this->priority + 1;
-                    }
+                if ($this->dueIn < 11 && $this->priority < 100) {
+                    $this->priority = $this->priority + 1;
                 }
-                if ($this->dueIn < 6) {
-                    if ($this->priority < 100) {
-                        $this->priority = $this->priority + 1;
-                    }
+                if ($this->dueIn < 6 && $this->priority < 100) {
+                    $this->priority = $this->priority + 1;
                 }
             }
         } else {
@@ -77,19 +71,15 @@ Class TaskManager {
             $this->dueIn = $this->dueIn - 1;
         }
         if ($this->dueIn < 0) {
-            if ($this->name != 'Get Older') {
-                if ($this->name != 'Complete Assessment') {
-                    if ($this->priority < 100) {
-                        if ($this->name != 'Breathe') {
-                            $this->priority = $this->priority + 1;
-                        }
-                    }
-                } else {
-                    $this->priority = $this->priority - $this->priority;
+            if ($this->name != 'Get Older' && $this->name != 'Complete Assessment') {
+                if ($this->priority < 100 && $this->name != 'Breathe') {
+                    $this->priority = $this->priority + 1;
                 }
             } else {
                 if ($this->priority > 0) {
                     $this->priority = $this->priority - 1;
+                } else {
+                    $this->priority = $this->priority - $this->priority;
                 }
             }
         }
