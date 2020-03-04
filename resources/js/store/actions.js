@@ -7,10 +7,16 @@ let actions = {
             console.log(err)
         })
     },
-    createTask({commit}) {
-        axios.post('/api/tasks')
+    createTask({commit}, task) {
+        axios.post('/api/tasks', task)
             .then(res => {
-                commit('CREATE_TASK', res.data)
+                //we can't update the state since we get "created" as the response and not the tasks json
+                //commit('CREATE_TASK', res.data)
+
+                // so we reload the page to show the new created task
+                if (res.data === 'created'){
+                    window.location.reload();
+                }
             }).catch(err => {
             console.log(err)
         })

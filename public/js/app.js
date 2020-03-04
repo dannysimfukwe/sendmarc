@@ -1950,19 +1950,54 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "task",
   components: {},
   data: function data() {
     return {
-      fields: ['id', 'name', 'priority', 'dueIn', 'Delete']
+      fields: ['id', 'name', 'priority', 'dueIn', 'Delete'],
+      task_data: {
+        name: '',
+        priority: '',
+        dueIn: ''
+      }
     };
   },
   mounted: function mounted() {
     this.$store.dispatch('fetchTasks');
   },
   methods: {
+    createTask: function createTask(task_data) {
+      this.$store.dispatch('createTask', task_data);
+    },
     deleteTask: function deleteTask(task) {
       this.$store.dispatch('deleteTask', task);
     },
@@ -1970,7 +2005,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.$store.dispatch('listTick');
     }
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['tasks']))
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['tasks']), {
+    isValid: function isValid() {
+      return this.task_data.name !== '' && this.task_data.priority !== '' && this.task_data.dueIn !== '';
+    }
+  })
 });
 
 /***/ }),
@@ -59641,7 +59680,6 @@ var render = function() {
           hover: "",
           items: _vm.tasks,
           fields: _vm.fields,
-          "tbody-tr-class": _vm.rowClass,
           "caption-top": ""
         },
         scopedSlots: _vm._u([
@@ -59719,7 +59757,90 @@ var render = function() {
             }
           }
         ])
-      })
+      }),
+      _vm._v(" "),
+      _c(
+        "b-form",
+        { attrs: { inline: "" } },
+        [
+          _c(
+            "label",
+            {
+              staticClass: "sr-only",
+              attrs: { for: "inline-form-input-name" }
+            },
+            [_vm._v("Name")]
+          ),
+          _vm._v(" "),
+          _c("b-input", {
+            staticClass: "mb-2 mr-sm-2 mb-sm-0",
+            attrs: { id: "inline-form-input-name", placeholder: "New Task" },
+            model: {
+              value: _vm.task_data.name,
+              callback: function($$v) {
+                _vm.$set(_vm.task_data, "name", $$v)
+              },
+              expression: "task_data.name"
+            }
+          }),
+          _vm._v(" "),
+          _c(
+            "label",
+            {
+              staticClass: "sr-only",
+              attrs: { for: "inline-form-input-name" }
+            },
+            [_vm._v("Priority")]
+          ),
+          _vm._v(" "),
+          _c("b-input", {
+            staticClass: "mb-2 mr-sm-2 mb-sm-0",
+            attrs: { id: "inline-form-input-name", placeholder: "Priority" },
+            model: {
+              value: _vm.task_data.priority,
+              callback: function($$v) {
+                _vm.$set(_vm.task_data, "priority", $$v)
+              },
+              expression: "task_data.priority"
+            }
+          }),
+          _vm._v(" "),
+          _c(
+            "label",
+            {
+              staticClass: "sr-only",
+              attrs: { for: "inline-form-input-name" }
+            },
+            [_vm._v("DueIn")]
+          ),
+          _vm._v(" "),
+          _c("b-input", {
+            staticClass: "mb-2 mr-sm-2 mb-sm-0",
+            attrs: { id: "inline-form-input-name", placeholder: "DueIn" },
+            model: {
+              value: _vm.task_data.dueIn,
+              callback: function($$v) {
+                _vm.$set(_vm.task_data, "dueIn", $$v)
+              },
+              expression: "task_data.dueIn"
+            }
+          }),
+          _vm._v(" "),
+          _c(
+            "b-button",
+            {
+              attrs: { disabled: !_vm.isValid, variant: "primary" },
+              on: {
+                click: function($event) {
+                  return _vm.createTask(_vm.task_data)
+                }
+              }
+            },
+            [_vm._v("Create Task")]
+          )
+        ],
+        1
+      )
     ],
     1
   )
@@ -73110,10 +73231,15 @@ var actions = {
       console.log(err);
     });
   },
-  createTask: function createTask(_ref2) {
+  createTask: function createTask(_ref2, task) {
     var commit = _ref2.commit;
-    axios.post('/api/tasks').then(function (res) {
-      commit('CREATE_TASK', res.data);
+    axios.post('/api/tasks', task).then(function (res) {
+      //we can't update the state since we get "created" as the response and not the tasks json
+      //commit('CREATE_TASK', res.data)
+      // so we reload the page to show the new created task
+      if (res.data === 'created') {
+        window.location.reload();
+      }
     })["catch"](function (err) {
       console.log(err);
     });
