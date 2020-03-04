@@ -71,15 +71,17 @@ Class TaskManager {
             $this->dueIn = $this->dueIn - 1;
         }
         if ($this->dueIn < 0) {
-            if ($this->name != 'Get Older' && $this->name != 'Complete Assessment') {
-                if ($this->priority < 100 && $this->name != 'Breathe') {
-                    $this->priority = $this->priority + 1;
+            if ($this->name != 'Get Older') {
+                if ($this->name != 'Complete Assessment') {
+                    if ($this->priority < 100 && $this->name != 'Breathe') {
+                        $this->priority = $this->priority + 1;
+                    }
+                } else {
+                    $this->priority = $this->priority - $this->priority;
                 }
             } else {
                 if ($this->priority > 0) {
                     $this->priority = $this->priority - 1;
-                } else {
-                    $this->priority = $this->priority - $this->priority;
                 }
             }
         }
