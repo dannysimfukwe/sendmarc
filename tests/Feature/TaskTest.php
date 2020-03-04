@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use App\Task;
 
 class TaskTest extends TestCase
 {
@@ -31,7 +32,8 @@ class TaskTest extends TestCase
 
     public function testDeleteTask()
     {
-        $response = $this->json('DELETE', '/api/tasks/2'); 
+        $task = Task::first();
+        $response = $this->json('DELETE', '/api/tasks/'.$task->id); 
 
         $response
             ->assertStatus(200)
