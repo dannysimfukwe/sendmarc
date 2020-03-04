@@ -45,6 +45,7 @@
             class="mb-2 mr-sm-2 mb-sm-0"
             placeholder="Priority"
             v-model="task_data.priority"
+            type="number"
         ></b-input>
 
           <label class="sr-only" for="inline-form-input-name">DueIn</label>
@@ -53,6 +54,7 @@
             class="mb-2 mr-sm-2 mb-sm-0"
             placeholder="DueIn"
             v-model="task_data.dueIn"
+            type="number"
         ></b-input>
 
         <b-button :disabled="!isValid" variant="primary" @click="createTask(task_data)">Create Task</b-button>

@@ -1977,6 +1977,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "task",
@@ -59795,7 +59797,11 @@ var render = function() {
           _vm._v(" "),
           _c("b-input", {
             staticClass: "mb-2 mr-sm-2 mb-sm-0",
-            attrs: { id: "inline-form-input-name", placeholder: "Priority" },
+            attrs: {
+              id: "inline-form-input-name",
+              placeholder: "Priority",
+              type: "number"
+            },
             model: {
               value: _vm.task_data.priority,
               callback: function($$v) {
@@ -59816,7 +59822,11 @@ var render = function() {
           _vm._v(" "),
           _c("b-input", {
             staticClass: "mb-2 mr-sm-2 mb-sm-0",
-            attrs: { id: "inline-form-input-name", placeholder: "DueIn" },
+            attrs: {
+              id: "inline-form-input-name",
+              placeholder: "DueIn",
+              type: "number"
+            },
             model: {
               value: _vm.task_data.dueIn,
               callback: function($$v) {
