@@ -2,6 +2,7 @@
 namespace App\Http\Repository;
 
 use App\Task;
+use App\Http\Repository\TaskStatus;
 
 Class TaskManager {
 
@@ -10,6 +11,8 @@ Class TaskManager {
     public $priority;
 
     public $dueIn;
+
+    
     
     public function __construct($name, $priority, $due_in) {
         $this->name = $name;
@@ -50,39 +53,37 @@ Class TaskManager {
 
     private function tick()
     {
-        if ($this->name != 'Get Older') {
-            if ($this->priority < 100 && $this->name != 'Breathe') {
+        if ($this->name != TaskStatus::GET_OLDER) {
+            if ($this->priority < 100 && $this->name != TaskStatus::BREATHE) {
                 $this->priority = $this->priority + 1;
             }
-            if ($this->name == 'Complete Assessment') {
-                if ($this->dueIn < 11 && $this->priority < 100) {
-                    $this->priority = $this->priority + 1;
-                }
-                if ($this->dueIn < 6 && $this->priority < 100) {
-                    $this->priority = $this->priority + 1;
-                }
-            }
+            $this->complete();
         } else {
-            if ($this->priority > 0) {
-                $this->priority = $this->priority - 1;
-            }
+            $this->priority = $this->priority - 1;
         }
-        if ($this->name != 'Breathe') {
+        if ($this->name != TaskStatus::BREATHE) {
             $this->dueIn = $this->dueIn - 1;
         }
         if ($this->dueIn < 0) {
-            if ($this->name != 'Get Older') {
-                if ($this->name != 'Complete Assessment') {
-                    if ($this->priority < 100 && $this->name != 'Breathe') {
+            if ($this->name != TaskStatus::GET_OLDER && $this->name != TaskStatus::COMPLETE) {
+               
+                    if ($this->priority < 100 && $this->name != TaskStatus::BREATHE) {
                         $this->priority = $this->priority + 1;
                     }
-                } else {
-                    $this->priority = $this->priority - $this->priority;
-                }
+    
             } else {
+                    $this->priority = $this->priority - $this->priority;
                 if ($this->priority > 0) {
                     $this->priority = $this->priority - 1;
                 }
+            }
+        }
+    }
+
+    private function complete() {
+        if ($this->name == TaskStatus::COMPLETE) {
+            if ($this->dueIn < 11 && $this->priority < 100) {
+                $this->priority = $this->priority + 1;
             }
         }
     }
